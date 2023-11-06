@@ -97,7 +97,7 @@ async function getIcon(active) {
   const svgContent = await response.text();
 
   // Modify the SVG content to change its fill color
-  const modifiedSvgContent = svgContent.replace("COLOR-PLACEHOLDER", (active ? "#73e069" : "#e86161"));
+  const modifiedSvgContent = svgContent.replace("#ffffff", (active ? "#73e069" : "#e86161"));
 
   // Create a Blob from the modified SVG content
   const blob = new Blob([modifiedSvgContent], { type: 'image/svg+xml' });
