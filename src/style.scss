@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@mixin font {
+  font-family: 'Lexend', sans-serif;
+}
+
+
+$green-gradient: linear-gradient(225deg, #38761dff, #93c47dff);
+$red-gradient: linear-gradient(225deg, #cc0000ff, #ea9999ff);
+
+html {
+  background-color: white;
+}
+
+
+body {
+  @include font;
+  margin: 0;
+  border: 3px solid black;
+
+  $outer-padding: 20px;
+  $inner-padding: 20px;
+
+  .popup {
+    
+    &[active="true"] {
+      background: $green-gradient;
+    }
+
+    &[active="false"] {
+      background: $red-gradient;
+    }
+
+    margin: 0;
+    text-align: center;
+    padding: $outer-padding;
+
+    h1 {
+      text-transform: uppercase;
+      font-weight: 800;
+      font-size: 30px;
+      width: max-content;
+      margin: 0 20px;
+      margin-bottom: $outer-padding;
+
+    }
+
+    .inner-box {
+      background-color: rgba(255, 255, 255, 0.658);
+      border-radius: 15px;
+      text-align: center;
+      padding: $inner-padding;
+
+      h2 {
+        text-transform: uppercase;
+        font-weight: 800;
+        font-size: 25px;
+        margin: 0;
+      }
+
+      .timer-section {
+        margin: $inner-padding calc(0px - $inner-padding);
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+
+        .timer {
+          padding: 0 $inner-padding;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+
+          p {
+            margin: 0;
+
+            &.t {
+              font-size: 60px;
+              font-weight: 700;
+            }
+
+            &.c {
+              font-size: 60px;
+              font-weight: 700;
+            }
+
+            &.l {
+              font-size: 15px;
+              font-weight: 500;
+              text-transform: uppercase;
+              margin-top: -8px;
+              margin-bottom: 12px;
+            }
+          }
+        }
+      }
+
+      a {
+        background-color: black;
+        border: none;
+        color: white;
+        @include font;
+        text-transform: uppercase;
+        padding: 8px;
+        width: 100%;
+        font-size: 20px;
+        font-weight: 700;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+
+        &:hover {
+          cursor: pointer;
+          background-color: rgb(48, 48, 48);
+          transform: scale(1.03);
+        }
+      }
+    }
+  }
+
+}

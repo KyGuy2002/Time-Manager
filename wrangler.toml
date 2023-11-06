@@ -1,0 +1,4 @@
+name = "time-manager"
+compatibility_date = "2023-05-11"
+main = "workers/index.js"
+account_id = "829a70df14e53a852a743a739331eca8"
