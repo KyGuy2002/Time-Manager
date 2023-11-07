@@ -1,9 +1,9 @@
 {
-  "name": "plasmo2",
-  "displayName": "Plasmo2",
+  "name": "time-manager",
+  "displayName": "Time Manager",
   "version": "0.0.1",
-  "description": "test",
-  "author": "kylan",
+  "description": "Manage and record your time spent on different projects!",
+  "author": "IEatBeans",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
