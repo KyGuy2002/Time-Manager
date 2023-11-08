@@ -1,9 +1,9 @@
-import "./style.scss";
+import "./popup.scss";
 import { useStorage } from "@plasmohq/storage/hook"
 import { useState } from "react";
 import { Storage } from "@plasmohq/storage";
 import { useEffect } from "react";
-import { getIcon } from "~utils";
+import { getIcon } from "../utils";
 
 export default function IndexPopup() {
   const [currentProject, setCurrentProject] = useStorage("currentProject", "SELECT PROJECT");
@@ -61,7 +61,7 @@ export default function IndexPopup() {
 
         <button className="inverted">Switch Project</button>
 
-        <a>View Statistics</a>
+        <a onClick={() => chrome.runtime.openOptionsPage()}>View Statistics</a>
 
       </div>
 
@@ -117,13 +117,12 @@ export default function IndexPopup() {
 async function getOtherTotalToday() {
   let total = 0;
 
-  const storage = new Storage()
-  let data = await storage.get("history");
+  let data = await new Storage().get("history");
   if (!data) data = [];
 
   const lastNightTs = new Date().setHours(3, 0, 0, 0); // 3am is midnight cuz I stay up late
-  for (let key in data) {
-    const obj = data[key];
+  for (let i = 0; i < data.length; i++) {
+    const obj = data[i];
     if (obj.endTime < lastNightTs) continue; // Skip if before 3am
     
     total = total + (obj.endTime - obj.startTime);

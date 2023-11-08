@@ -31,4 +31,4 @@ export async function getIcon(isActive: boolean) {
   
     const imageData = context.getImageData(0, 0, 16, 16);
     return imageData;
-  }
+}

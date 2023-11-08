@@ -1,0 +1,65 @@
+@use "../global.scss";
+
+html {
+    background: global.$green-gradient;
+    height: 100vh;
+}
+
+body {
+    margin: 0;
+    @include global.font;
+}
+
+$outer-padding: 40px;
+
+.stats {
+    padding: $outer-padding;
+
+
+    .main-box {
+        @include global.white-box;
+        box-sizing: border-box;
+        height: calc(100vh - (2 * $outer-padding));
+
+        padding: 30px;
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+
+            h1 {
+                font-size: 40px;
+                text-transform: uppercase;
+                font-weight: 800;
+                margin: 0;
+            }
+
+            .export {
+                background-color: black;
+                border: none;
+                color: white;
+                @include global.font;
+                text-transform: uppercase;
+                padding: 12px 70px;
+                font-size: 20px;
+                font-weight: 800;
+                border-radius: 10px;
+                display: block;
+                box-sizing: border-box;
+            }
+        }
+
+        .bar-container {
+            box-sizing: border-box;
+            height: calc(100% - 60px);
+
+            canvas {
+                height: 100%;
+            }
+        }
+    }
+
+
+}
