@@ -12,6 +12,33 @@ $border: 3px solid black;
   border-radius: 15px;
 }
 
+@mixin button {
+  background-color: black;
+  border: none;
+  color: white;
+  @include font;
+  text-transform: uppercase;
+  padding: 8px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 10px;
+  display: block;
+  box-sizing: border-box;
+  border: 3px solid black;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(48, 48, 48);
+    transform: scale(1.01);
+  }
+
+  &.inverted {
+    background-color: white;
+    color: black;
+  }
+}
+
 
 $green-gradient: linear-gradient(310deg, #38761dff, #93c47dff);
 $red-gradient: linear-gradient(310deg, #cc0000ff, rgb(228, 115, 115));

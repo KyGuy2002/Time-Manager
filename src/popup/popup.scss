@@ -106,32 +106,112 @@ body {
       }
 
       button {
-        background-color: black;
-        border: none;
-        color: white;
-        @include global.font;
-        text-transform: uppercase;
-        padding: 8px;
-        width: 100%;
-        font-size: 20px;
-        font-weight: 700;
-        border-radius: 10px;
-        display: block;
-        box-sizing: border-box;
+        @include global.button;
         margin-bottom: $inner-padding;
-        border: 3px solid black;
-
-        &:hover {
-          cursor: pointer;
-          background-color: rgb(48, 48, 48);
-          transform: scale(1.03);
-        }
-
-        &.inverted {
-          background-color: white;
-          color: black;
-        }
       }
+
+      .dropdown {
+        margin-bottom: $inner-padding;
+        position: relative;
+
+        .main-button {
+          @include global.button;
+        }
+
+        .menu {
+          @include global.button;
+          padding: 0;
+          position: absolute;
+          bottom: 100%;
+          overflow: hidden;
+          display: none;
+
+          .option {
+            padding: 12px 20px;
+            margin: 0;
+            box-sizing: border-box;
+            text-align: left;
+            font-size: 18px;
+
+            border-bottom: 1px solid gray;
+            width: 100%;
+
+            &[isselected="true"] {
+              background-color: rgb(226, 226, 226);
+            }
+
+            &:hover {
+              background-color: rgb(196, 196, 196);
+            }
+          }
+
+          .add {
+            border-bottom: 3px solid black;
+          }
+        }
+
+        &[isopen="true"] {
+
+          .main-button {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+
+            transform: scale(1);
+          }
+
+          .menu {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            transform: translateY(4px);
+            display: block;
+          }
+
+        }
+
+      }
+
+      // .dropdown {
+      //   @include global.button;
+      //   margin-bottom: $inner-padding;
+      //   box-sizing: border-box;
+      //   padding: 0;
+      //   overflow: visible;
+
+      //   .control {
+      //     background-color: transparent;
+      //     border: none;
+      //     text-align: center;
+
+      //     .Dropdown-placeholder {
+      //       color: black;
+      //     }
+
+      //     span {
+      //       border-color: transparent transparent black;
+      //       border-top-color: black;
+      //       transform: translateY(4px) translateX(-4px);
+      //     }
+      //   }
+
+      //   .Dropdown-menu {
+      //     bottom: 100%;
+      //     top: auto;
+      //     @include global.button;
+      //     box-sizing: border-box;
+      //     width: calc(100% + 4px);
+      //     transform: translateX(-2px);
+      //     padding: 0;
+
+      //     .Dropdown-option {
+      //       color: black;
+
+      //       &:hover {
+      //         background-color: rgb(218, 218, 218);
+      //       }
+      //     }
+      //   }
+
+      // }
 
       a {
         font-size: 15px;

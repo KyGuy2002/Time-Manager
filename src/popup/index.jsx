@@ -4,11 +4,21 @@ import { useState } from "react";
 import { Storage } from "@plasmohq/storage";
 import { useEffect } from "react";
 import { getIcon } from "../utils";
+import ReactDropdown from "react-dropdown";
+import 'react-dropdown/style.css';
+
+const projects = [
+  "fathomwerx gls",
+  "enchanted heights",
+  "sunset parks", 
+  "time manager"
+]
 
 export default function IndexPopup() {
   const [currentProject, setCurrentProject] = useStorage("currentProject", "SELECT PROJECT");
   const [currentSessionStartTime, setCurrentSessionStartTime] = useStorage("currentSessionStartTime", 0);
   const [isActive, setIsActive] = useStorage("isActive", false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
 
   // Init tasks on open
@@ -59,7 +69,13 @@ export default function IndexPopup() {
 
         <button onClick={() => toggle()}>{(isActive ? "pause" : "start")}</button>
 
-        <button className="inverted">Switch Project</button>
+        <div className="dropdown" isopen={isDropdownOpen.toString()}>
+          <div className="menu inverted">
+            <p className="option add">ADD PROJECT +</p>
+            {projects.map((name) => <p className="option" key={name} isselected={(currentProject == name.toLowerCase()).toString()} onClick={() => selectProject(name)}>{name}</p>)}
+          </div>
+          <button className="main-button inverted" onClick={() => setDropdownOpen(!isDropdownOpen)}>SELECT PROJECT</button>
+        </div>
 
         <a onClick={() => chrome.runtime.openOptionsPage()}>View Statistics</a>
 
@@ -67,6 +83,12 @@ export default function IndexPopup() {
 
     </div>
   )
+
+
+  async function selectProject(name) {
+    setCurrentProject(name.toLowerCase());
+    setDropdownOpen(false);
+  }
 
 
   // Toggle isActive
