@@ -1,0 +1,86 @@
+@use "../../global.scss";
+
+@mixin field {
+  height: 40px;
+  background-color: white;
+  border-radius: 10px;
+  border: 3px solid black;
+}
+
+.add-project-form {
+
+  form {
+
+    .item {
+      text-align: left;
+      margin-bottom: 30px;
+
+      label {
+        display: block;
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 3px
+      }
+
+      input {
+        @include field;
+        width: 100%;
+        text-transform: uppercase;
+        @include global.font;
+        font-size: 22px;
+        font-weight: 700;
+        text-align: center;
+      }
+    }
+
+    .item > .file-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+
+      input {
+        display: none;
+      }
+
+      .fake-icon {
+        @include field;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .icon {
+          width: 16px;
+          transition: width 0.1s ease-in-out;
+        }
+
+        &:hover {
+          .icon {
+            width: 19px;
+          }
+        }
+      }
+
+      p {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+
+        span {
+          font-weight: 800;
+        }
+      }
+    }
+
+    button {
+      @include global.button;
+    }
+
+    .cancel {
+      margin-top: 20px;
+    }
+
+  }
+
+}

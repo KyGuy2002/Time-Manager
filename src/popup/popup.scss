@@ -108,6 +108,16 @@ body {
       button {
         @include global.button;
         margin-bottom: $inner-padding;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .play-button {
+        img {
+          width: 13px;
+        }
       }
 
       .dropdown {
@@ -116,6 +126,10 @@ body {
 
         .main-button {
           @include global.button;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
         }
 
         .menu {
@@ -147,6 +161,10 @@ body {
 
           .add {
             border-bottom: 3px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
           }
         }
 
@@ -157,6 +175,10 @@ body {
             border-top-left-radius: 0;
 
             transform: scale(1);
+
+            img {
+              transform: rotate(180deg);
+            }
           }
 
           .menu {
@@ -170,49 +192,6 @@ body {
 
       }
 
-      // .dropdown {
-      //   @include global.button;
-      //   margin-bottom: $inner-padding;
-      //   box-sizing: border-box;
-      //   padding: 0;
-      //   overflow: visible;
-
-      //   .control {
-      //     background-color: transparent;
-      //     border: none;
-      //     text-align: center;
-
-      //     .Dropdown-placeholder {
-      //       color: black;
-      //     }
-
-      //     span {
-      //       border-color: transparent transparent black;
-      //       border-top-color: black;
-      //       transform: translateY(4px) translateX(-4px);
-      //     }
-      //   }
-
-      //   .Dropdown-menu {
-      //     bottom: 100%;
-      //     top: auto;
-      //     @include global.button;
-      //     box-sizing: border-box;
-      //     width: calc(100% + 4px);
-      //     transform: translateX(-2px);
-      //     padding: 0;
-
-      //     .Dropdown-option {
-      //       color: black;
-
-      //       &:hover {
-      //         background-color: rgb(218, 218, 218);
-      //       }
-      //     }
-      //   }
-
-      // }
-
       a {
         font-size: 15px;
         text-decoration: underline;
@@ -224,6 +203,63 @@ body {
         }
       }
     }
+  }
+
+}
+
+
+
+.modal {
+  background-color: rgba(255, 255, 255, 0.877);
+  border: global.$border;
+  backdrop-filter: blur(4px);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  text-align: center;
+  padding: 0 40px;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  display: none;
+  &[isshowing="true"] {
+    display: flex;
+  }
+}
+
+
+.add-project-modal {
+
+  h1 {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 50px;
+  }
+
+}
+
+.welcome-modal {
+
+  h1 {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 45px;
+    font-weight: 900;
+  }
+
+  p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
   }
 
 }

@@ -89,7 +89,7 @@ export default function Options() {
     let final = [];
 
     const data = await new Storage().get("history");
-    if (!data) data = [];
+    if (!data) data = []; // TODO at least include current session
 
     let currentNightTs = new Date().setHours(3, 0, 0, 0); // 3am is midnight cuz I stay up late
 
