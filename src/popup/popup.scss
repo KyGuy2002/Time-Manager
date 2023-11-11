@@ -4,13 +4,13 @@ html {
   background-color: white;
 }
 
+$outer-padding: 20px;
+$inner-padding: 20px;
+
 body {
   @include global.font;
   margin: 0;
   border: global.$border;
-
-  $outer-padding: 20px;
-  $inner-padding: 20px;
 
   .popup {
     
@@ -118,78 +118,6 @@ body {
         img {
           width: 13px;
         }
-      }
-
-      .dropdown {
-        margin-bottom: $inner-padding;
-        position: relative;
-
-        .main-button {
-          @include global.button;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-        }
-
-        .menu {
-          @include global.button;
-          padding: 0;
-          position: absolute;
-          bottom: 100%;
-          overflow: hidden;
-          display: none;
-
-          .option {
-            padding: 12px 20px;
-            margin: 0;
-            box-sizing: border-box;
-            text-align: left;
-            font-size: 18px;
-
-            border-bottom: 1px solid gray;
-            width: 100%;
-
-            &[isselected="true"] {
-              background-color: rgb(226, 226, 226);
-            }
-
-            &:hover {
-              background-color: rgb(196, 196, 196);
-            }
-          }
-
-          .add {
-            border-bottom: 3px solid black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-          }
-        }
-
-        &[isopen="true"] {
-
-          .main-button {
-            border-top-right-radius: 0;
-            border-top-left-radius: 0;
-
-            transform: scale(1);
-
-            img {
-              transform: rotate(180deg);
-            }
-          }
-
-          .menu {
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-            transform: translateY(4px);
-            display: block;
-          }
-
-        }
-
       }
 
       a {

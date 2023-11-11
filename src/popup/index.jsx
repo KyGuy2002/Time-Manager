@@ -5,11 +5,10 @@ import { Storage } from "@plasmohq/storage";
 import { useEffect } from "react";
 import { getIcon } from "../utils";
 import 'react-dropdown/style.css';
-import chevronDownIcon from "data-base64:~assets/fontawesome/chevron-down-solid.svg";
-import plusIcon from "data-base64:~assets/fontawesome/plus-solid.svg";
 import playIcon from "data-base64:~assets/fontawesome/play-solid.svg";
 import pauseIcon from "data-base64:~assets/fontawesome/pause-solid.svg";
 import AddProjectForm from "./addProjectForm/addProjectForm";
+import ProjectDropdown from "./projectDropdown/projectDropdown";
 
 export default function IndexPopup() {
   const [currentProject, setCurrentProject] = useStorage("currentProject");
@@ -98,13 +97,7 @@ export default function IndexPopup() {
         <button className="play-button" onClick={() => toggle()}>{(isActive ? "pause" : "start")} <img className="icon" src={(isActive ? pauseIcon : playIcon)}/></button>
 
         {(!isActive ?
-          <div className="dropdown" isopen={isDropdownOpen.toString()}>
-            <div className="menu inverted">
-              <p className="option add" onClick={() => setAddProject(true)}>ADD PROJECT <img className="icon" src={plusIcon}/></p>
-              {(allProjects || []).map((data) => <p className="option" key={data.name} isselected={(currentProject == data.name.toLowerCase()).toString()} onClick={() => selectProject(data)}>{data.name}</p>)}
-            </div>
-            <button className="main-button inverted" onClick={() => setDropdownOpen(!isDropdownOpen)}>SWITCH PROJECT <img className="icon" src={chevronDownIcon}/></button>
-          </div>
+          <ProjectDropdown isDropdownOpen={isDropdownOpen} setDropdownOpen={(v) => setDropdownOpen(v)} setAddProject={(v) => setAddProject(v)} allProjects={allProjects} selectProject={(v) => selectProject(v)}/>
         :
         <></>)}
 
