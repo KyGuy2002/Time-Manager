@@ -73,6 +73,12 @@
       }
     }
 
+    .error-text {
+      color: red;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
     button {
       @include global.button;
     }

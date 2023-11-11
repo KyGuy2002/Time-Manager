@@ -38,7 +38,8 @@
       "https://*/*"
     ],
     "permissions": [
-      "tabs"
+      "tabs",
+      "unlimitedStorage"
     ]
   }
 }

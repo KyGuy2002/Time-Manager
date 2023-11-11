@@ -9,12 +9,13 @@ import playIcon from "data-base64:~assets/fontawesome/play-solid.svg";
 import pauseIcon from "data-base64:~assets/fontawesome/pause-solid.svg";
 import AddProjectForm from "./addProjectForm/addProjectForm";
 import ProjectDropdown from "./projectDropdown/projectDropdown";
+import Project from "./project/project";
 
 export default function IndexPopup() {
   const [currentProject, setCurrentProject] = useStorage("currentProject");
   const [currentSessionStartTime, setCurrentSessionStartTime] = useStorage("currentSessionStartTime", 0);
   const [isActive, setIsActive] = useStorage("isActive", false);
-  const [allProjects, setAllProjects] = useStorage("allProjects", []);
+  const [allProjects, setAllProjects] = useStorage({key: "allProjects", instance: new Storage({area: "local"})}, []);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isAddProject, setAddProject] = useState(false);
 
@@ -49,7 +50,7 @@ export default function IndexPopup() {
     for (let i = 0; i < allProjects.length; i++) {
       if (currentProject == allProjects[i]) return;
     }
-    setCurrentProject(allProjects[0]);
+    setCurrentProject(allProjects[0]); // If old project was removed, update to random project
   }, [allProjects])
 
 
@@ -71,7 +72,10 @@ export default function IndexPopup() {
 
         <h1>Add Project</h1>
 
-        <AddProjectForm buttonText="Save" done={() => setAddProject(false)} isInitial={false}/>
+        <AddProjectForm buttonText="Save" done={(p) => {
+          setAddProject(false);
+          setCurrentProject(p);
+        }} isInitial={false}/>
 
       </div>
 
@@ -81,7 +85,7 @@ export default function IndexPopup() {
 
         <div className="status" active={isActive.toString()}>
           <h1>{(isActive ? "active" : "paused")}</h1>
-          <div className="project"><div className="img" style={{backgroundImage: "assets/f-logo.png"}}></div><p>{(currentProject?.name || "SELECT PROJECT")}</p></div>
+          <Project project={currentProject}/>
         </div>
 
         <div className="timers">
@@ -97,7 +101,7 @@ export default function IndexPopup() {
         <button className="play-button" onClick={() => toggle()}>{(isActive ? "pause" : "start")} <img className="icon" src={(isActive ? pauseIcon : playIcon)}/></button>
 
         {(!isActive ?
-          <ProjectDropdown isDropdownOpen={isDropdownOpen} setDropdownOpen={(v) => setDropdownOpen(v)} setAddProject={(v) => setAddProject(v)} allProjects={allProjects} selectProject={(v) => selectProject(v)}/>
+          <ProjectDropdown isDropdownOpen={isDropdownOpen} setDropdownOpen={(v) => setDropdownOpen(v)} setAddProject={(v) => setAddProject(v)}/>
         :
         <></>)}
 
@@ -107,12 +111,6 @@ export default function IndexPopup() {
 
     </div>
   )
-
-
-  async function selectProject(value) {
-    setCurrentProject(value);
-    setDropdownOpen(false);
-  }
 
 
   // Toggle isActive
