@@ -97,13 +97,16 @@ export default function IndexPopup() {
 
         <button className="play-button" onClick={() => toggle()}>{(isActive ? "pause" : "start")} <img className="icon" src={(isActive ? pauseIcon : playIcon)}/></button>
 
-        <div className="dropdown" isopen={isDropdownOpen.toString()}>
-          <div className="menu inverted">
-            <p className="option add" onClick={() => setAddProject(true)}>ADD PROJECT <img className="icon" src={plusIcon}/></p>
-            {(allProjects || []).map((data) => <p className="option" key={data.name} isselected={(currentProject == data.name.toLowerCase()).toString()} onClick={() => selectProject(data)}>{data.name}</p>)}
+        {(!isActive ?
+          <div className="dropdown" isopen={isDropdownOpen.toString()}>
+            <div className="menu inverted">
+              <p className="option add" onClick={() => setAddProject(true)}>ADD PROJECT <img className="icon" src={plusIcon}/></p>
+              {(allProjects || []).map((data) => <p className="option" key={data.name} isselected={(currentProject == data.name.toLowerCase()).toString()} onClick={() => selectProject(data)}>{data.name}</p>)}
+            </div>
+            <button className="main-button inverted" onClick={() => setDropdownOpen(!isDropdownOpen)}>SWITCH PROJECT <img className="icon" src={chevronDownIcon}/></button>
           </div>
-          <button className="main-button inverted" onClick={() => setDropdownOpen(!isDropdownOpen)}>SWITCH PROJECT <img className="icon" src={chevronDownIcon}/></button>
-        </div>
+        :
+        <></>)}
 
         <a onClick={() => chrome.runtime.openOptionsPage()}>View Statistics</a>
 
