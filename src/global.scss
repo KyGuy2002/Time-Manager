@@ -40,6 +40,14 @@ $border: 3px solid black;
 }
 
 
+@mixin field {
+  height: 40px;
+  background-color: white;
+  border-radius: 10px;
+  border: 3px solid black;
+}
+
+
 $green-gradient: linear-gradient(310deg, #38761dff, #93c47dff);
 $red-gradient: linear-gradient(310deg, #cc0000ff, rgb(228, 115, 115));
 

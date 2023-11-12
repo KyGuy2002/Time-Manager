@@ -142,10 +142,11 @@ body {
   justify-content: center;
   flex-direction: column;
 
-  display: none;
-  &[isshowing="true"] {
-    display: flex;
-  }
+  display: flex;
+  // display: none;
+  // &[isshowing="true"] {
+  //   display: flex;
+  // }
 }
 
 
@@ -175,6 +176,19 @@ body {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 20px;
+  }
+
+}
+
+
+.select-project-modal {
+
+  h1 {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 40px;
+    font-weight: 900;
+    margin-bottom: 30px;
   }
 
 }

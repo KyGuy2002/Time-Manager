@@ -7,17 +7,17 @@ import { getIcon } from "../utils";
 import 'react-dropdown/style.css';
 import playIcon from "data-base64:~assets/fontawesome/play-solid.svg";
 import pauseIcon from "data-base64:~assets/fontawesome/pause-solid.svg";
+import chevronDownIcon from "data-base64:~assets/fontawesome/chevron-down-solid.svg";
 import AddProjectForm from "./addProjectForm/addProjectForm";
-import ProjectDropdown from "./projectDropdown/projectDropdown";
 import Project from "./project/project";
+import SelectProjectList from "./selectProjectList/selectProjectList";
 
 export default function IndexPopup() {
   const [currentProject, setCurrentProject] = useStorage("currentProject");
   const [currentSessionStartTime, setCurrentSessionStartTime] = useStorage("currentSessionStartTime", 0);
   const [isActive, setIsActive] = useStorage("isActive", false);
   const [allProjects, setAllProjects] = useStorage({key: "allProjects", instance: new Storage({area: "local"})}, []);
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [isAddProject, setAddProject] = useState(false);
+  const [appState, setAppState] = useState("NORMAL");
 
 
   // Init tasks on open
@@ -44,40 +44,47 @@ export default function IndexPopup() {
   })
 
 
-  // Set default project
-  useEffect(() => {
-    if (allProjects.length == 0) return;
-    for (let i = 0; i < allProjects.length; i++) {
-      if (currentProject == allProjects[i]) return;
-    }
-    setCurrentProject(allProjects[0]); // If old project was removed, update to random project
-  }, [allProjects])
-
-
   return (
     <div className="popup" active={isActive.toString()}>
 
       {/* Welcome Modal/Landing */}
-      <div className="modal welcome-modal" isshowing={(allProjects.length == 0).toString()}>
+      {allProjects.length == 0 &&
+        <div className="modal welcome-modal">
 
-        <h1>Welcome</h1>
-        <p>To get started using Time Manager, please add a project.</p>
+          <h1>Welcome</h1>
+          <p>To get started using Time Manager, please add a project.</p>
 
-        <AddProjectForm buttonText="Get started" isInitial={true}/>
+          <AddProjectForm buttonText="Get started" isInitial={true} done={(p) => setCurrentProject(p)}/>
 
-      </div>
+        </div>
+      }
 
       {/* Add Project Modal */}
-      <div className="modal add-project-modal" isshowing={isAddProject.toString()}>
+      {appState == "ADD PROJECT" &&
+        <div className="modal add-project-modal">
 
-        <h1>Add Project</h1>
+          <h1>Add Project</h1>
 
-        <AddProjectForm buttonText="Save" done={(p) => {
-          setAddProject(false);
-          setCurrentProject(p);
-        }} isInitial={false}/>
+          <AddProjectForm buttonText="Save" done={(p) => {
+            setAppState("NORMAL");
+            setCurrentProject(p);
+          }} isInitial={false}/>
 
-      </div>
+        </div>
+      }
+
+      {/* Select Project Modal */}
+      {appState == "SELECT PROJECT" &&
+        <div className="modal select-project-modal">
+
+          <h1>Select Project</h1>
+
+          <SelectProjectList
+            setAppState={(s) => setAppState(s)}
+          />
+
+        </div>
+      }
 
       <div className="inner-box">
 
@@ -101,7 +108,7 @@ export default function IndexPopup() {
         <button className="play-button" onClick={() => toggle()}>{(isActive ? "pause" : "start")} <img className="icon" src={(isActive ? pauseIcon : playIcon)}/></button>
 
         {(!isActive ?
-          <ProjectDropdown isDropdownOpen={isDropdownOpen} setDropdownOpen={(v) => setDropdownOpen(v)} setAddProject={(v) => setAddProject(v)}/>
+          <button className="switch-project-button inverted" onClick={() => setAppState("SELECT PROJECT")}>SWITCH PROJECT <img className="icon" src={chevronDownIcon}/></button>
         :
         <></>)}
 

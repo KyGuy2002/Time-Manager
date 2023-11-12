@@ -10,13 +10,14 @@ export default function AddProjectForm(props) {
   const [projectName, setProjectName] = useState();
   const [iconFile, setIconFile] = useState();
   const fileInputRef = useRef();
+  const formRef = useRef();
   const [errorText, setErrorText] = useState();
 
 
   return (
     <div className="add-project-form">
 
-      <form onSubmit={(event) => onSubmit(event)}>
+      <form onSubmit={(event) => onSubmit(event)} ref={formRef}>
 
         <div className="item">
           <label for="name">Project Name</label>
@@ -60,7 +61,6 @@ export default function AddProjectForm(props) {
 
     const newProject = {name: projectName, icon: iconFile};
     setAllProjects([...allProjects, newProject]);
-    event.target.reset();
     if (props.done) props.done(newProject);
   }
 

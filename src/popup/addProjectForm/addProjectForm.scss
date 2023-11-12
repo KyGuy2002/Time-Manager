@@ -1,12 +1,5 @@
 @use "../../global.scss";
 
-@mixin field {
-  height: 40px;
-  background-color: white;
-  border-radius: 10px;
-  border: 3px solid black;
-}
-
 .add-project-form {
 
   form {
@@ -23,7 +16,7 @@
       }
 
       input {
-        @include field;
+        @include global.field;
         width: 100%;
         text-transform: uppercase;
         @include global.font;
@@ -44,7 +37,7 @@
       }
 
       .fake-icon {
-        @include field;
+        @include global.field;
         aspect-ratio: 1;
         display: flex;
         align-items: center;
