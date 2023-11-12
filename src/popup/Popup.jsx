@@ -145,6 +145,7 @@ async function getOtherTotalToday() {
   let data = await new Storage({area: "local"}).get("history");
   if (!data) data = [];
 
+  // TODO the 3am thing don't work everywhere (graphs in stats page, also it resets at 12 still)
   const lastNightTs = new Date().setHours(3, 0, 0, 0); // 3am is midnight cuz I stay up late
   for (let i = 0; i < data.length; i++) {
     const obj = data[i];

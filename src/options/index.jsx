@@ -1,5 +1,4 @@
 import "./options.scss";
-
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from "chart.js";
 import { useEffect } from "react";
 import { Bar } from "react-chartjs-2";
@@ -9,14 +8,19 @@ import { Storage } from "@plasmohq/storage";
 import { DateTime } from "luxon";
 import _ from "lodash";
 import { useStorage } from "@plasmohq/storage/hook";
+import ProjectFilter from "./projectFilter/ProjectFilter";
 
 export default function Options() {
   const [ chartData, setChartData ] = useState();
   const [isActive, setIsActive] = useStorage({key: "isActive", instance: new Storage({area: "local"})}, false);
+  const [filteredProjects, setFilteredProjects] = useStorage({key: "filteredProjects", instance: new Storage({area: "local"})}, []);
 
+
+  // Initial tasks
   useEffect(() => {
     registerChartJsConfig();
   }, []);
+
 
   // Rerender screen every second
   useEffect(() => {
@@ -34,6 +38,7 @@ export default function Options() {
     }
   }, [])
 
+
   return (
     <div className="stats dynamic-background" active={isActive.toString()}>
 
@@ -42,6 +47,8 @@ export default function Options() {
         <div className="header">
 
           <h1>Statistics</h1>
+
+          <ProjectFilter/>
 
           <button className="export">Export</button>
 
