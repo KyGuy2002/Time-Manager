@@ -15,7 +15,7 @@ export default function AddProjectForm(props) {
   const [errorText, setErrorText] = useState();
   const [currentProject, setCurrentProject] = useStorage({key: "currentProject", instance: new Storage({area: "local"})});
 
-  const {closeModal} = useModal();
+  const {closeModal, closeAllModals} = useModal();
 
 
   return (
@@ -66,7 +66,7 @@ export default function AddProjectForm(props) {
     const newProject = {name: projectName, icon: iconFile};
     setAllProjects([...allProjects, newProject]);
     setCurrentProject(newProject);
-    closeModal();
+    closeAllModals()
   }
 
 
