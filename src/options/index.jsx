@@ -8,21 +8,34 @@ import { useState } from "react";
 import { Storage } from "@plasmohq/storage";
 import { DateTime } from "luxon";
 import _ from "lodash";
+import { useStorage } from "@plasmohq/storage/hook";
 
 export default function Options() {
   const [ chartData, setChartData ] = useState();
-
-  async function main() {
-    registerChartJsConfig();
-    setChartData(await getHistoryData());
-  }
+  const [isActive, setIsActive] = useStorage({key: "isActive", instance: new Storage({area: "local"})}, false);
 
   useEffect(() => {
-    main();
+    registerChartJsConfig();
   }, []);
 
+  // Rerender screen every second
+  useEffect(() => {
+    const i = setInterval(() => {
+      handle();
+    }, 1000);
+
+    handle();
+    async function handle() {
+      setChartData(await getHistoryData());
+    }
+
+    return () => {
+      clearInterval(i);
+    }
+  }, [])
+
   return (
-    <div className="stats">
+    <div className="stats dynamic-background" active={isActive.toString()}>
 
       <div className="main-box">
 
@@ -94,7 +107,7 @@ export default function Options() {
   async function getHistoryData() {
     let final = [];
 
-    const data = await new Storage().get("history");
+    const data = await new Storage({area: "local"}).get("history");
     if (!data) data = []; // TODO at least include current session
 
     let currentNightTs = new Date().setHours(3, 0, 0, 0); // 3am is midnight cuz I stay up late
@@ -102,8 +115,8 @@ export default function Options() {
     let currentDayTotal = 0;
 
     // Add current session if active
-    if (await new Storage().get("isActive"))
-      currentDayTotal = Date.now() - await new Storage().get("currentSessionStartTime");
+    if (await new Storage({area: "local"}).get("isActive"))
+      currentDayTotal = Date.now() - await new Storage({area: "local"}).get("currentSessionStartTime");
 
     
     for (let i = (data.length-1); i >= 0; i--) {

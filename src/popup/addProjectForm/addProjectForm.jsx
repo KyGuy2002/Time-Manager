@@ -13,7 +13,7 @@ export default function AddProjectForm(props) {
   const fileInputRef = useRef();
   const formRef = useRef();
   const [errorText, setErrorText] = useState();
-  const [currentProject, setCurrentProject] = useStorage("currentProject");
+  const [currentProject, setCurrentProject] = useStorage({key: "currentProject", instance: new Storage({area: "local"})});
 
   const {closeModal} = useModal();
 

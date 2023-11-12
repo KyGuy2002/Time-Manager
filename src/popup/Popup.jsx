@@ -14,9 +14,9 @@ import SelectProjectModalContent from "./selectProjectModalContent/selectProject
 import { useModal } from "./modal/ModalContext";
 
 export default function Popup() {
-  const [currentProject, setCurrentProject] = useStorage("currentProject");
-  const [currentSessionStartTime, setCurrentSessionStartTime] = useStorage("currentSessionStartTime", 0);
-  const [isActive, setIsActive] = useStorage("isActive", false);
+  const [currentProject, setCurrentProject] = useStorage({key: "currentProject", instance: new Storage({area: "local"})});
+  const [currentSessionStartTime, setCurrentSessionStartTime] = useStorage({key: "currentSessionStartTime", instance: new Storage({area: "local"})}, 0);
+  const [isActive, setIsActive] = useStorage({key: "isActive", instance: new Storage({area: "local"})}, false);
   const [allProjects, setAllProjects] = useStorage({key: "allProjects", instance: new Storage({area: "local"})}, []);
 
   const { openModal } = useModal();
@@ -37,7 +37,7 @@ export default function Popup() {
       setTotalToday(await getOtherTotalToday());
 
       // Set icon
-      chrome.action.setIcon({imageData: await getIcon(await new Storage().get("isActive"))}); // Refetch state so it doesn't use the default for a second while loading
+      chrome.action.setIcon({imageData: await getIcon(await new Storage({area: "local"}).get("isActive"))}); // Refetch state so it doesn't use the default for a second while loading
     }
     handle();
   }, []);
@@ -57,13 +57,13 @@ export default function Popup() {
 
 
   return (
-    <div className="popup" active={isActive.toString()}>
+    <div className="popup dynamic-background" active={isActive.toString()}>
 
       <div className="inner-box">
 
         <h1 className="title">Time Manager</h1>
 
-        <div className="status" active={isActive.toString()}>
+        <div className="status dynamic-background" active={isActive.toString()}>
           <h1>{(isActive ? "active" : "paused")}</h1>
           <Project project={currentProject}/>
         </div>
@@ -114,9 +114,10 @@ export default function Popup() {
       chrome.action.setIcon({imageData: await getIcon(false)});
 
       // Save prev session
-      const storage = new Storage()
+      const storage = new Storage({area: "local"})
       let data = await storage.get("history");
       if (!data) data = [];
+      console.log(data);
 
       data.push({
         startTime: currentSessionStartTime,
@@ -141,7 +142,7 @@ export default function Popup() {
 async function getOtherTotalToday() {
   let total = 0;
 
-  let data = await new Storage().get("history");
+  let data = await new Storage({area: "local"}).get("history");
   if (!data) data = [];
 
   const lastNightTs = new Date().setHours(3, 0, 0, 0); // 3am is midnight cuz I stay up late

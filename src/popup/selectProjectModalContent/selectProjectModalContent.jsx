@@ -7,10 +7,11 @@ import Project from "../project/project";
 import { useModal } from "../modal/ModalContext";
 import AddProjectForm from "../addProjectForm/addProjectForm";
 import { getWelcomeModal } from "../Popup";
+import _ from "lodash";
 
 export default function SelectProjectModalContent() {
   const [allProjects, setAllProjects] = useStorage({key: "allProjects", instance: new Storage({area: "local"})}, []);
-  const [currentProject, setCurrentProject] = useStorage("currentProject");
+  const [currentProject, setCurrentProject] = useStorage({key: "currentProject", instance: new Storage({area: "local"})});
 
   const {openModal, closeModal, closeAllModals} = useModal();
 
@@ -27,7 +28,7 @@ export default function SelectProjectModalContent() {
 
             <div className="item project"
               key={p.name + " name"}
-              isselected={(currentProject == p).toString()}
+              isselected={(currentProject.name == p.name).toString()}
               onClick={() => selectProject(p)}
             >
               <Project project={p}/>
@@ -74,7 +75,7 @@ export default function SelectProjectModalContent() {
         <p>Are you sure you want to delete <span>{project.name}</span>?  Deleting this project will also delete all of it's data, and decrease your daily total.</p>
 
         <button onClick={() => {
-          const newProjects = allProjects.filter(p => p !== project);
+          const newProjects = allProjects.filter(p => p.name !== project.name);
           setAllProjects(newProjects);
           closeModal();
 

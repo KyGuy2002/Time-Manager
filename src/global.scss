@@ -55,3 +55,14 @@ $red-gradient: linear-gradient(310deg, #cc0000ff, rgb(228, 115, 115));
 .icon {
   width: 18px;
 }
+
+
+
+.dynamic-background {
+  &[active="false"] {
+    background: $red-gradient;
+  }
+  &[active="true"] {
+    background: $green-gradient;
+  }
+}

@@ -13,14 +13,6 @@ body {
   border: global.$border;
 
   .popup {
-    
-    &[active="false"] {
-      background: global.$red-gradient;
-    }
-    &[active="true"] {
-      background: global.$green-gradient;
-    }
-
     margin: 0;
     padding: $outer-padding;
 
@@ -39,13 +31,6 @@ body {
       }
 
       .status {
-
-        &[active="false"] {
-          background: global.$red-gradient;
-        }
-        &[active="true"] {
-          background: global.$green-gradient;
-        }
 
         margin: $inner-padding calc(0px - $inner-padding);
         border-top: global.$border;
