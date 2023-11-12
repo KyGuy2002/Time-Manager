@@ -6,6 +6,8 @@ import { Bar } from "react-chartjs-2";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useState } from "react";
 import { Storage } from "@plasmohq/storage";
+import { DateTime } from "luxon";
+import _ from "lodash";
 
 export default function Options() {
   const [ chartData, setChartData ] = useState();
@@ -36,7 +38,7 @@ export default function Options() {
           {(chartData ? 
             <Bar
               data={{
-                labels: ["11/1", "11/2", "11/3", "11/4", "11/5", "YESTERDAY", "TODAY"],
+                labels: getDateLabels(),
                 datasets: [
                   {
                     label: 'FATHOMWERX GLS',
@@ -49,14 +51,18 @@ export default function Options() {
               }}
               options={{
                   scales: {
-                      y: {
-                          beginAtZero: true,
-                          ticks: {
-                              callback: function(value, index, values) {
-                                return getHoursStr(value)
-                            }
-                          }
+                    y: {
+                      type: 'linear',
+                      position: 'left',
+                      ticks: {
+                        maxTicksLimit: 10,
+                        stepSize: 60000,
+                        callback: value => {
+                          if (getHoursStr(value) == "0 hr") return getMinutesStr(value);
+                          else return getHoursStr(value);
+                        }
                       }
+                    }
                   }
               }}
             />
@@ -132,15 +138,46 @@ export default function Options() {
 
   }
 
+  async function getBiggestValue(array) {
+    let largest = 0;
+    for (let i = 0; i < array.length; i++) {
+      if (largest < array[i]) largest = array[i];
+    }
+    return largest;
+  }
+
+  function getDateLabels() {
+    const labels = ["Yesterday", "Today"];
+
+    for (let i = 2; i < 5+2; i++) {
+      labels.unshift(DateTime.now().plus({ days: -i }).toFormat("LLL d") + getNumberSuffix(_.toInteger(DateTime.now().plus({ days: -i }).toFormat("d"))));
+    }
+
+    function getNumberSuffix(num) {
+      const th = 'th'
+      const rd = 'rd'
+      const nd = 'nd'
+      const st = 'st'
+    
+      if (num === 11 || num === 12 || num === 13) return th
+    
+      let lastDigit = num.toString().slice(-1)
+    
+      switch (lastDigit) {
+        case '1': return st
+        case '2': return nd
+        case '3': return rd
+        default:  return th
+      }
+    }
+
+    return labels;
+  }
+
 }
 
 function getHoursMinutesChartStr(duration) {
-  const totalSeconds = Math.floor(duration / 1000);
-  const totalMinutes = Math.floor(totalSeconds / 60);
-  const diffInMinutes = totalMinutes % 60;
-  const diffInHours = Math.floor(totalMinutes / 60);
-
-  return `${diffInHours} hr \n ${diffInMinutes} min`
+  return `${getHoursStr(duration)} \n ${getMinutesStr(duration)}`
 }
 
 function getHoursStr(duration) {
@@ -149,4 +186,12 @@ function getHoursStr(duration) {
   const diffInHours = Math.floor(totalMinutes / 60);
 
   return `${diffInHours} hr`
+}
+
+function getMinutesStr(duration) {
+  const totalSeconds = Math.floor(duration / 1000);
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const diffInMinutes = totalMinutes % 60;
+
+  return `${diffInMinutes} min`
 }
