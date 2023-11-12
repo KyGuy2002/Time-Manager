@@ -24,16 +24,16 @@ export default function AddProjectForm(props) {
       <form onSubmit={(event) => onSubmit(event)} ref={formRef}>
 
         <div className="item">
-          <label for="name">Project Name</label>
+          <label htmlFor ="name">Project Name</label>
           <input id="name" type="text" placeholder="project name" maxLength={18} onChange={(event) => setProjectName(event.target.value.toUpperCase())}/>
         </div>
 
         <div className="item">
-          <label for="iconUpload">Project Icon/Logo</label>
+          <label htmlFor ="iconUpload">Project Icon/Logo</label>
           <div className="file-upload" onClick={() => fileInputRef.current.click()}>
             <input id="iconUpload" ref={fileInputRef} type="file" onChange={(event) => scaleImage(event.target.files[0])}/>
-            <div className="fake-icon">
-              <img className="icon" src={uploadIcon}/>
+            <div className="fake-icon" style={{backgroundImage: `url(${iconFile})`}}>
+              {!iconFile && <img className="icon" src={uploadIcon}/>} 
             </div>
             <p><span>Click</span> to upload an icon or logo to identify this project.</p>
           </div>

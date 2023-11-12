@@ -38,10 +38,14 @@
 
       .fake-icon {
         @include global.field;
+        border-radius: 100%;
         aspect-ratio: 1;
         display: flex;
         align-items: center;
         justify-content: center;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
         
         .icon {
           width: 16px;

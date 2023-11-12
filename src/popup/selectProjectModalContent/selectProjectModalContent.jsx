@@ -12,7 +12,7 @@ export default function SelectProjectModalContent() {
   const [allProjects, setAllProjects] = useStorage({key: "allProjects", instance: new Storage({area: "local"})}, []);
   const [currentProject, setCurrentProject] = useStorage("currentProject");
 
-  const {openModal, closeModal} = useModal();
+  const {openModal, closeModal, closeAllModals} = useModal();
 
   return (
     <div className="select-project-modal">
@@ -76,10 +76,19 @@ export default function SelectProjectModalContent() {
         <button onClick={() => {
           const newProjects = allProjects.filter(p => p !== project);
           setAllProjects(newProjects);
-
           closeModal();
-          if (newProjects.length == 0) openModal(getWelcomeModal()) // Deleted all projects, so restart
-          else if (!newProjects.includes(currentProject)) setCurrentProject(newProjects[0]);
+
+          // Deleted all projects, so restart
+          if (newProjects.length == 0) {
+            closeAllModals();
+            openModal(getWelcomeModal())
+            return;
+          }
+
+          // If deleted current project, auto pick a new one
+          if (!newProjects.includes(currentProject)) {
+            setCurrentProject(newProjects[0]);
+          }
         }}>Delete</button>
 
         <button className="inverted cancel" onClick={() => closeModal()}>Cancel</button>
