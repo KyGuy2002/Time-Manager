@@ -4,6 +4,7 @@ import uploadIcon from "data-base64:~assets/fontawesome/upload-solid.svg";
 import { useState } from "react";
 import { useRef } from "react";
 import { Storage } from "@plasmohq/storage";
+import { useModal } from "../modal/ModalContext";
 
 export default function AddProjectForm(props) {
   const [allProjects, setAllProjects] = useStorage({key: "allProjects", instance: new Storage({area: "local"})}, [])
@@ -12,6 +13,9 @@ export default function AddProjectForm(props) {
   const fileInputRef = useRef();
   const formRef = useRef();
   const [errorText, setErrorText] = useState();
+  const [currentProject, setCurrentProject] = useStorage("currentProject");
+
+  const {closeModal} = useModal();
 
 
   return (
@@ -37,8 +41,8 @@ export default function AddProjectForm(props) {
 
         <p className="error-text">{errorText}</p>
 
-        <button type="submit">{props.buttonText}</button>
-        {props.isInitial || <button className="inverted cancel" onClick={() => props.done()}>Cancel</button>}
+        <button type="submit">{(props.isInitial ? "GET STARTED" : "ADD")}</button>
+        {props.isInitial || <button className="inverted cancel" onClick={() => closeModal()}>Cancel</button>}
 
       </form>
 
@@ -61,7 +65,8 @@ export default function AddProjectForm(props) {
 
     const newProject = {name: projectName, icon: iconFile};
     setAllProjects([...allProjects, newProject]);
-    if (props.done) props.done(newProject);
+    setCurrentProject(newProject);
+    closeModal();
   }
 
 
@@ -97,7 +102,7 @@ export default function AddProjectForm(props) {
     };
   
     reader.readAsDataURL(file);
-  };
+  }
 
 
 }
