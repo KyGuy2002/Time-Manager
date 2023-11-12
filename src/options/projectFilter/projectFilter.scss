@@ -1,5 +1,78 @@
 @use "../../global.scss";
 
+$hover-color: rgb(197, 197, 197);
+
 .project-filter {
+    position: absolute;
+    left: -1px;
+    top: 65px;
+
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 15px;
+    padding: 15px;
+
+    .bulk-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+
+        .bulk-button {
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 0;
+            border-radius: 20px;
+            padding: 3px 8px;
+
+            &:hover {
+                background-color: $hover-color;
+                cursor: pointer;
+            }
+        }
+
+        .divider {
+            height: 12px;
+            background-color: black;
+            width: 1px
+        }
+    }
+
+    .project-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+
+        .card {
+            padding: 5px 8px;
+            padding-right: 14px;
+            border: 2px solid black;
+            border-radius: 20px;
+            display: flex;
+            gap: 10px;
+            
+            .project-item {
+                p {
+                    color: black;
+                }
+            }
+
+            &[isenabled="true"] {
+                &[issystemactive="true"] {
+                    background-color: rgb(219, 255, 219);
+                }
+                &[issystemactive="false"] {
+                    background-color: rgb(255, 219, 219);
+                }
+            }
+
+            &:hover {
+                background-color: $hover-color;
+                cursor: pointer;
+            }
+        }
+    }
 
 }

@@ -14,6 +14,7 @@ export default function Options() {
   const [ chartData, setChartData ] = useState();
   const [isActive, setIsActive] = useStorage({key: "isActive", instance: new Storage({area: "local"})}, false);
   const [filteredProjects, setFilteredProjects] = useStorage({key: "filteredProjects", instance: new Storage({area: "local"})}, []);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
 
   // Initial tasks
@@ -48,9 +49,11 @@ export default function Options() {
 
           <h1>Statistics</h1>
 
-          <ProjectFilter/>
-
-          <button className="export">Export</button>
+          <div className="buttons">
+            <button className="inverted filters" onClick={() => setFiltersOpen(!filtersOpen)}>Filters</button>
+            <button className="export">Export</button>
+            {filtersOpen && <ProjectFilter/>}
+          </div>
 
         </div>
 
@@ -125,12 +128,11 @@ export default function Options() {
     if (await new Storage({area: "local"}).get("isActive"))
       currentDayTotal = Date.now() - await new Storage({area: "local"}).get("currentSessionStartTime");
 
-    
     for (let i = (data.length-1); i >= 0; i--) {
       const obj = data[i];
 
-      // If end time is greater than current days 3am, add.
-      if (obj.endTime > currentNightTs) {
+      // If end time is greater than current days 3am, add.  (Also if filters are empty or includes this)
+      if (obj.endTime > currentNightTs && (filteredProjects.length == 0 || filteredProjects.includes(obj.project))) { // TODO the filters dont work
         currentDayTotal = currentDayTotal + (obj.endTime - obj.startTime);
       }
 

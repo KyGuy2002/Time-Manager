@@ -25,7 +25,7 @@ export default function AddProjectForm(props) {
 
         <div className="item">
           <label htmlFor ="name">Project Name</label>
-          <input id="name" type="text" placeholder="project name" maxLength={18} onChange={(event) => setProjectName(event.target.value.toUpperCase())}/>
+          <input autoFocus id="name" type="text" placeholder="project name" maxLength={18} onChange={(event) => setProjectName(event.target.value.toUpperCase())}/>
         </div>
 
         <div className="item">

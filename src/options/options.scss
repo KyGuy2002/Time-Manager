@@ -26,8 +26,8 @@ $outer-padding: 40px;
         .header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             margin-bottom: 15px;
+            gap: 20px;
 
             h1 {
                 font-size: 40px;
@@ -36,18 +36,16 @@ $outer-padding: 40px;
                 margin: 0;
             }
 
-            .export {
-                background-color: black;
-                border: none;
-                color: white;
-                @include global.font;
-                text-transform: uppercase;
-                padding: 12px 70px;
-                font-size: 20px;
-                font-weight: 800;
-                border-radius: 10px;
-                display: block;
-                box-sizing: border-box;
+            .buttons {
+                margin-left: auto;
+                position: relative;
+                display: flex;
+                gap: 20px;
+
+                button {
+                    @include global.button;
+                    width: 200px;
+                }
             }
         }
 
