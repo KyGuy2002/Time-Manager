@@ -97,3 +97,35 @@
   }
 
 }
+
+
+.confirm-deletion-modal {
+
+  h1 {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 30px;
+
+    span {
+      font-weight: 900;
+    }
+  }
+
+  button {
+    @include global.button;
+
+    &.cancel {
+      margin-top: 20px;
+    }
+  }
+
+}

@@ -10,10 +10,14 @@ export default function ModalProvider(props) {
   const [modals, setModals] = useState([]);
 
   const openModal = (content) => {
+    console.log("just opened modal! Remaining: "+(modals.length + 1))
+    console.log([...modals, content])
     setModals([...modals, content]);
   };
 
   const closeModal = () => {
+    console.log("MODAL CLOSED!!!  Remaining: "+(modals.length - 1));
+    console.log(modals.slice(0, -1))
     setModals(modals.slice(0, -1));
   };
 

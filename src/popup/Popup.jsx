@@ -22,27 +22,21 @@ export default function Popup() {
   const { openModal } = useModal();
 
 
-  // Show the welcome new user modal if no projects are added
-  useEffect(() => {
-    if (allProjects.length != 0) return
-    openModal(
-      <div className="welcome-modal">
-
-        <h1>Welcome</h1>
-        <p>To get started using Time Manager, please add a project.</p>
-
-        <AddProjectForm isInitial={true}/>
-
-      </div>
-    );
-  }, [allProjects]);
-
-
   // Init tasks on open
   const [totalToday, setTotalToday] = useState(0);
   useEffect(() => {
     async function handle() {
+
+      // Check if no projects set, if so open welcome modal
+      const tempProjects = await new Storage({area: "local"}).get("allProjects");
+      if (!tempProjects || tempProjects.length == 0) {
+        openModal(getWelcomeModal());
+      }
+
+      // Calculate total today
       setTotalToday(await getOtherTotalToday());
+
+      // Set icon
       chrome.action.setIcon({imageData: await getIcon(await new Storage().get("isActive"))}); // Refetch state so it doesn't use the default for a second while loading
     }
     handle();
@@ -175,4 +169,18 @@ function getTimeStr(duration) {
 
   return `${diffInHours.toString().padStart(2, '0')}:${diffInMinutes.toString().padStart(2, '0')}:${diffInSeconds.toString().padStart(2, '0')}`;
 
+}
+
+
+export function getWelcomeModal() {
+  return (
+    <div className="welcome-modal">
+
+      <h1>Welcome</h1>
+      <p>To get started using Time Manager, please add a project.</p>
+
+      <AddProjectForm isInitial={true}/>
+
+    </div>
+  )
 }

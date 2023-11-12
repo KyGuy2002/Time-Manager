@@ -6,6 +6,7 @@ import { Storage } from "@plasmohq/storage";
 import Project from "../project/project";
 import { useModal } from "../modal/ModalContext";
 import AddProjectForm from "../addProjectForm/addProjectForm";
+import { getWelcomeModal } from "../Popup";
 
 export default function SelectProjectModalContent() {
   const [allProjects, setAllProjects] = useStorage({key: "allProjects", instance: new Storage({area: "local"})}, []);
@@ -68,17 +69,21 @@ export default function SelectProjectModalContent() {
 
   async function deleteProject(project) {
     openModal(
-      <>
+      <div className="confirm-deletion-modal">
         <h1>Confirm</h1>
-        <p>Are you sure you want to delete <span>{project.name}</span>?  Deleting this project will also delete all historic data, and remove it from your total.</p>
+        <p>Are you sure you want to delete <span>{project.name}</span>?  Deleting this project will also delete all of it's data, and decrease your daily total.</p>
 
-        <button className="inverted" onClick={() => closeModal()}>Cancel</button>
         <button onClick={() => {
           const newProjects = allProjects.filter(p => p !== project);
           setAllProjects(newProjects);
+
           closeModal();
+          if (newProjects.length == 0) openModal(getWelcomeModal()) // Deleted all projects, so restart
+          else if (!newProjects.includes(currentProject)) setCurrentProject(newProjects[0]);
         }}>Delete</button>
-      </>
+
+        <button className="inverted cancel" onClick={() => closeModal()}>Cancel</button>
+      </div>
     );
   }
 
